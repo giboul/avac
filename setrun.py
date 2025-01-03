@@ -134,7 +134,7 @@ def setrun(claw_pkg='geoclaw'):
     clawdata.output_format = 'ascii'      # 'ascii' or 'binary' 
 
     clawdata.output_q_components = 'all'   # could be list such as [True,True]
-    clawdata.output_aux_components = [True]  # could be list
+    # clawdata.output_aux_components = [True]  # could be list
     clawdata.output_aux_onlyonce = True    # output aux arrays only at t0
 
 
@@ -405,15 +405,15 @@ def setgeo(rundata):
     # Refinement data
     refinement_data = rundata.refinement_data
     refinement_data.wave_tolerance = 1.e-2
-    refinement_data.deep_depth = 1e2
-    refinement_data.max_level_deep = 3
+    # refinement_data.deep_depth = 1e2
+    # refinement_data.max_level_deep = 3
     refinement_data.variable_dt_refinement_ratios = True
 
     # == settopo.data values ==
     topo_data = rundata.topo_data
     # for topography, append lines of the form
     #    [topotype, minlevel, maxlevel, t1, t2, fname]
-    topo_data.topofiles.append([2, 1, 3, 0., 1.e10, 'topo.asc'])
+    topo_data.topofiles.append([2, 'topo.asc'])
 
     # == setdtopo.data values ==
     dtopo_data = rundata.dtopo_data
@@ -425,10 +425,10 @@ def setgeo(rundata):
     rundata.qinit_data.qinitfiles = []
     # for qinit perturbations, append lines of the form: (<= 1 allowed for now!)
     #   [minlev, maxlev, fname]
-    rundata.qinit_data.qinitfiles.append([1, 2, 'initial.xyz'])
+    rundata.qinit_data.qinitfiles.append(['initial.xyz'])
 
     # == setfixedgrids.data values ==
-    fixedgrids = rundata.fixed_grid_data.fixedgrids
+    # fixedgrids = rundata.fixed_grid_data.fixedgrids
     # for fixed grids append lines of the form
     # [t1,t2,noutput,x1,x2,y1,y2,xpoints,ypoints,\
     #  ioutarrivaltimes,ioutsurfacemax]
