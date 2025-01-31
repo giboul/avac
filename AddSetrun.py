@@ -14,15 +14,15 @@ xmax = bounds["xmax"]
 ymin = bounds["ymin"]
 ymax = bounds["ymax"]
 
-nx = int((xmax - xmin) / TOPM["resolution"] / 66)
-ny = int((ymax - ymin) / TOPM["resolution"] / 66)
+nx = int((xmax - xmin) / 66)
+ny = int((ymax - ymin) / 66)
 
-nsim = 100
+nsim = 50
 
-tmax = 300
+tmax = 300.
 
-dt_init = 0.002
-cfl_desired = 0.95
+dt_init = 0.001
+cfl_desired = 0.5
 nb_max_iter = 1000
 
 refinement = 4

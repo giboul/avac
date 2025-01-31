@@ -11,7 +11,14 @@ from __future__ import print_function
 import os
 import numpy as np
 from clawpack.geoclaw.fgout_tools import FGoutGrid
+from yaml import safe_load
 
+
+with open("../config.yaml") as file:
+    config = safe_load(file)
+    AVAC = config["AVAC"]
+    TOPM = config["TOPM"]
+    TSUL = config["TSUL"]
 
 #------------------------------
 def setrun(claw_pkg='geoclaw'):
@@ -265,9 +272,9 @@ def setrun(claw_pkg='geoclaw'):
     amrdata.amr_levels_max = AddSetrun.refinement
 
     # List of refinement ratios at each level (length at least mxnest-1)
-    amrdata.refinement_ratios_x = [2,4,8]
-    amrdata.refinement_ratios_y = [2,4,8]
-    amrdata.refinement_ratios_t = [2,4,8]
+    amrdata.refinement_ratios_x = [2,4,4]
+    amrdata.refinement_ratios_y = [2,4,4]
+    amrdata.refinement_ratios_t = [2,4,4]
 
 
     # Specify type of each aux variable in amrdata.auxtype.
@@ -337,7 +344,7 @@ def setrun(claw_pkg='geoclaw'):
     xmax = xmax + 10
     ymin = ymin - 10
     ymax = ymax + 10
-    fgout.output_format = 'binary32'  # ascii, binary32 4-byte, float32
+    fgout.output_format = 'binary64'  # ascii, binary32 4-byte, float32
     fgout.nx = int((xmax-xmin)/1.)
     fgout.ny = int((ymax-ymin)/1.)
     fgout.x1 = xmin
@@ -367,6 +374,14 @@ def setrun(claw_pkg='geoclaw'):
     #     x = r + .001  # shift a bit away from cell corners
     #     y = .001
      #    rundata.gaugedata.gauges.append([gaugeno, x, y, 0., 1e10])
+
+    voellmydata = rundata.new_UserData(name='probdata',fname='voellmy.data')
+    voellmydata.add_param("snow_density", AVAC["snow_density"], "")
+    voellmydata.add_param("xi", 2500, "Voellmy: geometrical resistance")
+    voellmydata.add_param("mu", 0.2, "Voellmy: friction coefficient ~snow viscosity")
+    voellmydata.add_param("u_", 0.3, "Velocity threshold")
+    voellmydata.add_param("beta_slope", 1.1, "Threshold bed slope")
+    voellmydata.add_param("coulomb", 0, "Wether to use the Coulomb model")
 
     # Points on a uniform 2d grid:
 
