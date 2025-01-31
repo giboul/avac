@@ -49,6 +49,7 @@ EXCLUDE_SOURCES = \
 
 MODULES = \
   ./module_voellmy.f90 \
+  ./qinit_module.f90 \
 
 SOURCES = \
   ./src2.f90 \
