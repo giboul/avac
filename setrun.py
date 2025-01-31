@@ -10,6 +10,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 import os
 import numpy as np
+from clawpack.geoclaw.fgout_tools import FGoutGrid
 
 
 #------------------------------
@@ -131,7 +132,7 @@ def setrun(claw_pkg='geoclaw'):
         clawdata.output_t0 = True
         
 
-    clawdata.output_format = 'ascii'      # 'ascii' or 'binary' 
+    clawdata.output_format = 'binary'      # 'ascii' or 'binary' 
 
     clawdata.output_q_components = 'all'   # could be list such as [True,True]
     # clawdata.output_aux_components = [True]  # could be list
@@ -322,6 +323,31 @@ def setrun(claw_pkg='geoclaw'):
        regions.append([1, 2, 0., 1.e10, AddZoom.x_zoom_min, \
        AddZoom.x_zoom_max, AddZoom.y_zoom_min, AddZoom.y_zoom_max])    
        
+    # == fgout grids ==
+    # new style as of v5.9.0 (old rundata.fixed_grid_data is deprecated)
+    # fixed_grid_data script doesn't exist anymore...
+
+    fgout_grids = rundata.fgout_data.fgout_grids  # empty list initially
+
+    fgout = FGoutGrid()
+    fgout.fgno = 1
+    fgout.point_style = 2       # will specify a 2d grid of points
+    xmin, xmax, ymin, ymax = np.loadtxt("../topm/lake_extent.txt")
+    xmin = xmin - 10
+    xmax = xmax + 10
+    ymin = ymin - 10
+    ymax = ymax + 10
+    fgout.output_format = 'binary32'  # ascii, binary32 4-byte, float32
+    fgout.nx = int((xmax-xmin)/1.)
+    fgout.ny = int((ymax-ymin)/1.)
+    fgout.x1 = xmin
+    fgout.x2 = xmax
+    fgout.y1 = ymin
+    fgout.y2 = ymax
+    fgout.tstart = 0.
+    fgout.tend = clawdata.tfinal
+    fgout.nout = clawdata.num_output_times
+    fgout_grids.append(fgout)    # written to fgout_grids.data
  
        
     #regions.append([2, 3, 3., 1.e10,   52., 72.,   52., 72.])
@@ -413,7 +439,7 @@ def setgeo(rundata):
     topo_data = rundata.topo_data
     # for topography, append lines of the form
     #    [topotype, minlevel, maxlevel, t1, t2, fname]
-    topo_data.topofiles.append([2, 'topo.asc'])
+    topo_data.topofiles.append([2, '../topm/bathymetry.asc'])
 
     # == setdtopo.data values ==
     dtopo_data = rundata.dtopo_data
