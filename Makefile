@@ -66,6 +66,9 @@ include $(CLAWMAKE)
 .PHONY: topo all
 topo:
 	python maketopo.py
+avid = ""
+qinit:
+	python makeqinit.py $(avid)
 
 all: 
 	$(MAKE) topo
