@@ -65,10 +65,11 @@ include $(CLAWMAKE)
 # Construct the topography data
 .PHONY: topo all
 topo:
-	python maketopo.py
-avid = ""
+	python ../topm/maketopo.py
+
+avid ?= 1
 qinit:
-	python makeqinit.py $(avid)
+	python ../topm/makeqinit_avac.py $(avid)
 
 all: 
 	$(MAKE) topo

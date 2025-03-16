@@ -9,12 +9,14 @@ that will be read in by the Fortran code.
 from __future__ import absolute_import
 from __future__ import print_function
 import os
+from pathlib import Path
 import numpy as np
 from clawpack.geoclaw.fgout_tools import FGoutGrid
 from yaml import safe_load
 
 
-with open("../config.yaml") as file:
+projdir = Path(__file__).parents[1]
+with open(projdir / "config.yaml") as file:
     config = safe_load(file)
     AVAC = config["AVAC"]
     TOPM = config["TOPM"]
@@ -454,7 +456,7 @@ def setgeo(rundata):
     topo_data = rundata.topo_data
     # for topography, append lines of the form
     #    [topotype, minlevel, maxlevel, t1, t2, fname]
-    topo_data.topofiles.append([2, '../topm/bathymetry.asc'])
+    topo_data.topofiles.append([2, projdir / TOPM["bathymetry"]])
 
     # == setdtopo.data values ==
     dtopo_data = rundata.dtopo_data
@@ -466,7 +468,7 @@ def setgeo(rundata):
     rundata.qinit_data.qinitfiles = []
     # for qinit perturbations, append lines of the form: (<= 1 allowed for now!)
     #   [minlev, maxlev, fname]
-    rundata.qinit_data.qinitfiles.append(['initial.xyz'])
+    rundata.qinit_data.qinitfiles.append([projdir/AVAC["qinit"]])
 
     # == setfixedgrids.data values ==
     # fixedgrids = rundata.fixed_grid_data.fixedgrids
