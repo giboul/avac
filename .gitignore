@@ -1,0 +1,16 @@
+__pycache__
+xgeoclaw
+*.data
+.output
+*.txt
+*.npy
+*.bin
+*.csv
+*.o
+*.mod
+*.tif
+*.asc
+*.xy*
+*.log
+fgout*.*
+fort*.*
