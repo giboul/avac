@@ -382,7 +382,10 @@ def setrun(claw_pkg='geoclaw'):
     voellmydata.add_param("xi", 2500, "Voellmy: geometrical resistance")
     voellmydata.add_param("mu", 0.2, "Voellmy: friction coefficient ~snow viscosity")
     voellmydata.add_param("u_", 0.3, "Velocity threshold")
-    voellmydata.add_param("beta_slope", 1.1, "Threshold bed slope")
+    voellmydata.add_param("xi", AVAC["xi"], "Voellmy: geometrical resistance")
+    voellmydata.add_param("mu", AVAC["mu"], "Voellmy: friction coefficient ~snow viscosity")
+    voellmydata.add_param("u_", AVAC["u*"], "Velocity threshold")
+    voellmydata.add_param("beta_slope", AVAC["beta_slope"], "Threshold bed slope")
     voellmydata.add_param("coulomb", 0, "Wether to use the Coulomb model")
 
     # Points on a uniform 2d grid:
